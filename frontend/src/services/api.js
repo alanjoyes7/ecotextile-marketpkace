@@ -1,156 +1,239 @@
-import axios from 'axios';
-import { auth } from './firebase';
+import axios from "axios";
+import { auth } from "./firebase";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+/**
+ * Backend base URL
+ * - Local: http://localhost:5000/api
+ * - Production (Vercel): set VITE_API_URL
+ */
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
-// Create axios instance
+/* =========================
+   AXIOS INSTANCE
+========================= */
+
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
-// Request interceptor to add auth token
+/* =========================
+   REQUEST INTERCEPTOR
+   → Attach Firebase ID token
+========================= */
+
 api.interceptors.request.use(
   async (config) => {
     const user = auth.currentUser;
+
     if (user) {
       const token = await user.getIdToken();
       config.headers.Authorization = `Bearer ${token}`;
     }
+
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
-// Response interceptor for error handling
+/* =========================
+   RESPONSE INTERCEPTOR
+   → Handle auth errors
+========================= */
+
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Token expired or invalid - redirect to login
-      window.location.href = '/login';
+      console.warn("Unauthorized – redirecting to login");
+      window.location.href = "/login";
     }
     return Promise.reject(error);
   }
 );
 
-// ============== Classification API ==============
+/* =========================
+   CLASSIFICATION API
+========================= */
 
+/**
+ * Analyze uploaded image
+ * @param {File} imageFile
+ */
 export const analyzeImage = async (imageFile) => {
+  const formData = new FormData();
+  formData.append("image", imageFile);
+
   try {
-    const formData = new FormData();
-    formData.append('image', imageFile);
-
-    const response = await api.post('/classification/analyze', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-
+    const response = await api.post(
+      "/classification/analyze",
+      formData
+      // DO NOT set Content-Type manually
+    );
     return response.data;
   } catch (error) {
-    throw error.response?.data || { error: 'Failed to analyze image' };
+    throw (
+      error.response?.data || { error: "Failed to analyze image" }
+    );
   }
 };
 
+/**
+ * Validate user corrections
+ */
 export const validateCorrections = async (corrections) => {
   try {
-    const response = await api.post('/classification/validate', corrections);
+    const response = await api.post(
+      "/classification/validate",
+      corrections
+    );
     return response.data;
   } catch (error) {
-    throw error.response?.data || { error: 'Failed to validate corrections' };
+    throw (
+      error.response?.data || { error: "Failed to validate corrections" }
+    );
   }
 };
 
-// ============== Listings API ==============
+/* =========================
+   LISTINGS / WASTE API
+========================= */
 
 export const createListing = async (listingData) => {
   try {
-    const response = await api.post('/waste/listings', listingData);
+    const response = await api.post(
+      "/waste/listings",
+      listingData
+    );
     return response.data;
   } catch (error) {
-    throw error.response?.data || { error: 'Failed to create listing' };
+    throw (
+      error.response?.data || { error: "Failed to create listing" }
+    );
   }
 };
 
 export const getListings = async (filters = {}) => {
   try {
-    const queryParams = new URLSearchParams(filters).toString();
-    const response = await api.get(`/waste/listings?${queryParams}`);
+    const params = new URLSearchParams(filters).toString();
+    const response = await api.get(
+      `/waste/listings?${params}`
+    );
     return response.data;
   } catch (error) {
-    throw error.response?.data || { error: 'Failed to fetch listings' };
+    throw (
+      error.response?.data || { error: "Failed to fetch listings" }
+    );
   }
 };
 
 export const getListingById = async (id) => {
   try {
-    const response = await api.get(`/waste/listings/${id}`);
+    const response = await api.get(
+      `/waste/listings/${id}`
+    );
     return response.data;
   } catch (error) {
-    throw error.response?.data || { error: 'Failed to fetch listing' };
+    throw (
+      error.response?.data || { error: "Failed to fetch listing" }
+    );
   }
 };
 
 export const updateListing = async (id, updates) => {
   try {
-    const response = await api.put(`/waste/listings/${id}`, updates);
+    const response = await api.put(
+      `/waste/listings/${id}`,
+      updates
+    );
     return response.data;
   } catch (error) {
-    throw error.response?.data || { error: 'Failed to update listing' };
+    throw (
+      error.response?.data || { error: "Failed to update listing" }
+    );
   }
 };
 
 export const deleteListing = async (id) => {
   try {
-    const response = await api.delete(`/waste/listings/${id}`);
+    const response = await api.delete(
+      `/waste/listings/${id}`
+    );
     return response.data;
   } catch (error) {
-    throw error.response?.data || { error: 'Failed to delete listing' };
+    throw (
+      error.response?.data || { error: "Failed to delete listing" }
+    );
   }
 };
 
 export const getUserListings = async () => {
   try {
-    const response = await api.get('/waste/my-listings');
+    const response = await api.get(
+      "/waste/my-listings"
+    );
     return response.data;
   } catch (error) {
-    throw error.response?.data || { error: 'Failed to fetch user listings' };
+    throw (
+      error.response?.data || {
+        error: "Failed to fetch user listings",
+      }
+    );
   }
 };
 
 export const getUserStats = async () => {
   try {
-    const response = await api.get('/waste/stats');
+    const response = await api.get("/waste/stats");
     return response.data;
   } catch (error) {
-    throw error.response?.data || { error: 'Failed to fetch user stats' };
+    throw (
+      error.response?.data || {
+        error: "Failed to fetch user stats",
+      }
+    );
   }
 };
 
-// ============== Buyers API (if you create this endpoint) ==============
+/* =========================
+   BUYERS API (OPTIONAL)
+========================= */
 
 export const getBuyers = async (filters = {}) => {
   try {
-    const queryParams = new URLSearchParams(filters).toString();
-    const response = await api.get(`/buyers?${queryParams}`);
+    const params = new URLSearchParams(filters).toString();
+    const response = await api.get(
+      `/buyers?${params}`
+    );
     return response.data;
   } catch (error) {
-    throw error.response?.data || { error: 'Failed to fetch buyers' };
+    throw (
+      error.response?.data || { error: "Failed to fetch buyers" }
+    );
   }
 };
 
 export const contactBuyer = async (buyerId, message) => {
   try {
-    const response = await api.post(`/buyers/${buyerId}/contact`, { message });
+    const response = await api.post(
+      `/buyers/${buyerId}/contact`,
+      { message }
+    );
     return response.data;
   } catch (error) {
-    throw error.response?.data || { error: 'Failed to contact buyer' };
+    throw (
+      error.response?.data || {
+        error: "Failed to contact buyer",
+      }
+    );
   }
 };
+
+/* =========================
+   EXPORT AXIOS INSTANCE
+========================= */
 
 export default api;
