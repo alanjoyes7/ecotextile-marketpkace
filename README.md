@@ -25,14 +25,18 @@
 
 ## 🌍 What is EcoTextile Marketplace?
 
-**EcoTextile Marketplace** is a MERN-based sustainable e-commerce platform built to support **eco-friendly textiles**, **ethical sourcing**, and **responsible consumption**.
+**EcoTextile Marketplace** is a MERN-based sustainable e-commerce platform built to support:
 
-The platform allows:
-- 🧑‍🌾 **Textile sellers** to list sustainable products
-- 🛍️ **Buyers** to discover and purchase eco-friendly fabrics
-- 🌱 **Everyone** to contribute toward a greener fashion ecosystem
+- 🌿 **Eco-friendly textiles**
+- 🤝 **Ethical sourcing**
+- ♻️ **Responsible consumption**
 
-This project focuses on solving the lack of transparency and accessibility in sustainable textile commerce.
+### The platform enables:
+- 🧑‍🌾 **Textile sellers** to list sustainable products  
+- 🛍️ **Buyers** to discover and purchase eco-friendly fabrics  
+- 🌱 **Everyone** to contribute to a greener fashion ecosystem  
+
+This project addresses the lack of transparency and accessibility in sustainable textile commerce.
 
 ---
 
@@ -62,22 +66,25 @@ This project focuses on solving the lack of transparency and accessibility in su
 
 ### ⚡ Installation & Setup
 
+```bash
 # Clone the repository
 git clone https://github.com/alanjoyes7/ecotextile-marketpkace.git
 cd ecotextile-marketpkace
-
+bash
+Copy code
 # Install backend dependencies
 cd backend
 npm install
-
+bash
+Copy code
 # Start backend server
-cd backend
 npm run dev
-
+bash
+Copy code
 # Start frontend server
 cd ../frontend
+npm install
 npm run dev
-
 🌐 Frontend runs on: http://localhost:3000
 
 🌟 Key Features
@@ -89,57 +96,58 @@ Feature	Description
 🏷️ Category Browsing	Organic, recycled & natural textiles
 🔍 Smart Search	Easy product discovery
 📦 Seller Product Management	Add & manage products
+
 <div align="center">
 🛒 Buyer Experience
 </div>
-
 🛍️ Browse textile products
-📄 View product details
+
+📄 View detailed product pages
+
 ❤️ Wishlist support
+
 🧾 Order history
 
 <div align="center">
 🧑‍🌾 Seller Dashboard
 </div>
-
 📦 Add / update textile products
 
 📊 Track listed items
 
 🧵 Manage inventory
 
-🧾 View orders
+🧾 View received orders
+
 <div align="center">
 🔐 Authentication & Security
 </div>
-
 🔑 User registration & login
 
-👥 Role-based access (buyer / seller)
+👥 Role-based access (Buyer / Seller)
 
 🔐 JWT authentication
 
 🛡️ Secure backend APIs
 
 🎮 Use Case Scenarios
-
 A small textile producer lists organic cotton fabrics
 
 A fashion startup sources sustainable materials
 
 A buyer compares eco-friendly alternatives
 
-A student/researcher explores sustainable e-commerce
+A student or researcher explores sustainable e-commerce
 
 📊 Platform Impact
 <div align="center">
 ♻️ Sustainability	🤝 Ethical Trade	🌍 Awareness	📦 Transparency
 Promotes green textiles	Supports artisans	Educates buyers	Clear sourcing
+
 </div>
 🛠️ Tech Stack
 <div align="center">
 🎨 Frontend
-
 Next.js
 
 React
@@ -149,7 +157,6 @@ Tailwind CSS
 JavaScript
 
 ⚙️ Backend
-
 Node.js
 
 Express.js
@@ -160,6 +167,8 @@ JWT Authentication
 
 </div>
 📁 Project Structure
+text
+Copy code
 ecotextile-marketpkace/
 ├── backend/
 │   ├── controllers/
@@ -174,21 +183,18 @@ ecotextile-marketpkace/
 │   └── utils/
 ├── package.json
 └── README.md
-
 🚀 Future Enhancements
-
 🌱 Sustainability scoring system
 
 💳 Payment gateway integration
 
-📱 Mobile responsiveness improvements
+📱 Improved mobile responsiveness
 
 🌍 Multi-vendor analytics
 
 🤖 AI-based product recommendations
 
 🤝 Contributing
-
 Contributions are welcome and appreciated 💚
 
 🍴 Fork the repository
@@ -203,21 +209,17 @@ Contributions are welcome and appreciated 💚
 
 📄 License
 <div align="center">
-
 MIT License
 
-© 2025 Alan Joyes
+© 2026 Paper X
 Free to use, modify, and distribute with attribution.
 
 </div>
-
 🏷️ Tags
-
 sustainable • eco-textile • marketplace • mern • nextjs • ethical-commerce • green-tech
 
 <div align="center">
 🌱 Build the future of sustainable textiles
-
 If you like this project, give it a ⭐ and help promote ethical tech!
 
 </div>
